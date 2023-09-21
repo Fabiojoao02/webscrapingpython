@@ -1,2 +1,2 @@
 # webscrapingpython
-Rapagem de site
+web scraping de site
