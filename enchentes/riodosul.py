@@ -106,7 +106,7 @@ def telemetria():
             nome_rio.text.strip(), nivel_rio.text.strip(
             ), vlr_nivel_rio.text.strip(), uni_nivel_rio.text.strip(),
             chuva_total, vlr_chuva.text.strip(), uni_chuva, temperatura,
-            vlr_temp.text.strip(), uni_temp, umidade, uni_umidade, pressao,
+            vlr_temp.text.strip(), uni_temp, umidade, vlr_umidade.text.strip(), uni_umidade, pressao,
             vlr_pressao.text.strip(), uni_pressao, status.text.strip(), vento, vlr_vento.text.strip(),
             uni_vento, direcao.text.strip(), leitura.text.strip()
         ])
@@ -121,8 +121,8 @@ def telemetria():
     novos_dados = pd.DataFrame(dados_telemetria, columns=[
         'nome_rio', 'nivel_rio', 'vlr_nivel_rio', 'uni_nivel_rio', 'chuva_total',
         'vlr_chuva', 'uni_chuva', 'temperatura', 'vlr_temp', 'uni_temp', 'umidade',
-        'uni_umidade', 'pressao', 'vlr_pressao', 'uni_pressao', 'status', 'vento',
-        'vlr_vento', 'uni_vento', 'direcao', 'leitura'])
+        'vlr_umidade', 'uni_umidade', 'pressao', 'vlr_pressao', 'uni_pressao', 'status',
+        'vento', 'vlr_vento', 'uni_vento', 'direcao', 'leitura'])
 
     dados_final = pd.concat([dados_existente, novos_dados], ignore_index=True)
 
@@ -130,6 +130,7 @@ def telemetria():
     dados_final.to_csv('telemetriaRSUL.csv', sep=';', index=False)
 
 
+# telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
 schedule.every(15).minutes.do(telemetria)
 
