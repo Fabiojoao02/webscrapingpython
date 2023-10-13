@@ -15,7 +15,7 @@ import schedule
 def telemetria():
 
     options = webdriver.ChromeOptions()
-    options.headless = True
+    options.headless = False
     # options.add_argument('--headless')
 
     navegador = webdriver.Chrome(options=options)
@@ -130,10 +130,10 @@ def telemetria():
     dados_final.to_csv('telemetriaRSUL.csv', sep=';', index=False)
 
 
-# telemetria()
+telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
-schedule.every(15).minutes.do(telemetria)
+#schedule.every(50).minutes.do(telemetria)
 
-while True:
-    schedule.run_pending()
-    sleep(1)
+#while True:
+ #   schedule.run_pending()
+  #  sleep(1)
