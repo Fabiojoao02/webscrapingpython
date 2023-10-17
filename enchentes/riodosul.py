@@ -7,7 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 import pandas as pd
-
+from datetime import datetime
 import schedule
 # import time
 
@@ -15,7 +15,7 @@ import schedule
 def telemetria():
 
     options = webdriver.ChromeOptions()
-    options.headless = False
+    options.headless = True
     # options.add_argument('--headless')
 
     navegador = webdriver.Chrome(options=options)
@@ -129,11 +129,12 @@ def telemetria():
     # Salve o DataFrame atualizado de volta no arquivo CSV
     dados_final.to_csv('telemetriaRSUL.csv', sep=';', index=False)
 
-
-telemetria()
+today = datetime.now()
+print("Today date is: ", today)
+#telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
-#schedule.every(50).minutes.do(telemetria)
+schedule.every(50).minutes.do(telemetria)
 
-#while True:
- #   schedule.run_pending()
-  #  sleep(1)
+while True:
+    schedule.run_pending()
+    sleep(1)
