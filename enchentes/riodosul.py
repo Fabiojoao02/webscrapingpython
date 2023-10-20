@@ -11,8 +11,15 @@ from datetime import datetime
 import schedule
 # import time
 
+today = datetime.now()
+print("data e hora: ", today)
+
+
 
 def telemetria():
+
+    today = datetime.now()
+    print("data e hora: ", today)
 
     options = webdriver.ChromeOptions()
     options.headless = True
@@ -129,8 +136,8 @@ def telemetria():
     # Salve o DataFrame atualizado de volta no arquivo CSV
     dados_final.to_csv('telemetriaRSUL.csv', sep=';', index=False)
 
-today = datetime.now()
-print("Today date is: ", today)
+
+
 #telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
 schedule.every(50).minutes.do(telemetria)
