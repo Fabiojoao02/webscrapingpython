@@ -138,7 +138,7 @@ def telemetria():
 
 
 
-#telemetria()
+telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
 schedule.every(50).minutes.do(telemetria)
 
