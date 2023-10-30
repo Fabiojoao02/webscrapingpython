@@ -9,11 +9,17 @@ from selenium.common.exceptions import NoSuchElementException
 import pandas as pd
 from datetime import datetime
 import schedule
-# import time
+from pathlib import Path
+import shutil
+import os
+
+CAMINHO_ORIGEM = Path(__file__).parent.parent
+
+print(CAMINHO_ORIGEM)
+
 
 today = datetime.now()
 print("data e hora: ", today)
-
 
 
 def telemetria():
@@ -132,12 +138,27 @@ def telemetria():
         'vento', 'vlr_vento', 'uni_vento', 'direcao', 'leitura'])
 
     dados_final = pd.concat([dados_existente, novos_dados], ignore_index=True)
+    dados_final_sub = pd.concat([novos_dados], ignore_index=True)
 
     # Salve o DataFrame atualizado de volta no arquivo CSV
     dados_final.to_csv('telemetriaRSUL.csv', sep=';', index=False)
+    dados_final_sub.to_csv('telemetriaRSUL_atual.csv', sep=';', index=False)
+
+    # Se o arquivo já existe, leia-o primeiro
+    dados_existente = pd.read_csv('telemetriaRSUL_atual.csv', sep=';')
+    arquivo = 'telemetriaRSUL_atual.csv'
+    # origem
+    caminho_origem = CAMINHO_ORIGEM / arquivo
+    # destino
+    caminho_destino = CAMINHO_ORIGEM / 'airflow' / 'data' / arquivo
+    # Copia o arquivo
+    shutil.copy(caminho_origem, caminho_destino)
+    # remove arquivo
+    os.remove(caminho_origem)
 
 
-
+# Copia o arquivo
+# shutil.copy(caminho_origem, caminho_destino)
 telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
 schedule.every(50).minutes.do(telemetria)
