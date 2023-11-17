@@ -28,21 +28,27 @@ def telemetria():
     print("data e hora: ", today)
 
     options = webdriver.ChromeOptions()
-    options.headless = True
+    options.headless = False
     options.add_argument('--headless=new')
 
     navegador = webdriver.Chrome(options=options)
     navegador.get('https://telemetria.riodosul.sc.gov.br/home')
     sleep(6)
 
-    itens_menu = navegador.find_elements(By.XPATH, '//*[@id="gmimap0"]/area') + \
-        navegador.find_elements(By.XPATH, '//*[@id="gmimap1"]/area') 
-    sleep(10)
-    
-    #itens_menu_oeste = navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
-    #sleep(30)
+    # itens_menu = navegador.find_elements(
+    #    By.XPATH, '///*[@id="map"]/div/div/div[2]/div[2]/div/div[3]/div[1]/img')  # + \
+    # navegador.find_elements(By.XPATH, '//*[@id="map"]/div/div/div[2]/div[2]/div/div[3]/div[2]/img') + \
+    # navegador.find_elements(
+    #   By.XPATH, '//*[@id="map"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img')
 
-    #itens_menu += itens_menu_oeste
+    itens_menu = navegador.find_elements(By.XPATH, '//*[@id="gmimap8"]/area') + \
+        navegador.find_elements(By.XPATH, '//*[@id="gmimap9"]/area') + \
+        navegador.find_elements(By.XPATH, '//*[@id="gmimap10"]/area')
+    sleep(25)
+    # itens_menu_oeste = navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
+    # sleep(30)
+
+    # itens_menu += itens_menu_oeste
 
     dados_telemetria = []
 
@@ -140,13 +146,12 @@ def telemetria():
         'vlr_chuva', 'uni_chuva', 'temperatura', 'vlr_temp', 'uni_temp', 'umidade',
         'vlr_umidade', 'uni_umidade', 'pressao', 'vlr_pressao', 'uni_pressao', 'status',
         'vento', 'vlr_vento', 'uni_vento', 'direcao', 'leitura'])
-    
-    #dados_final = pd.concat([dados_existente, novos_dados], ignore_index=True, sort=False)
-    #dados_final_sub = pd.concat([novos_dados], ignore_index=True, sort=False)
 
-    #implementado para evitar msg de wannnerde colunas vazias
+    # dados_final = pd.concat([dados_existente, novos_dados], ignore_index=True, sort=False)
+    # dados_final_sub = pd.concat([novos_dados], ignore_index=True, sort=False)
+
+    # implementado para evitar msg de wannnerde colunas vazias
     novos_dados = novos_dados.dropna(axis=1, how='all')
-
 
     dados_final = pd.concat([dados_existente, novos_dados], ignore_index=True)
     dados_final_sub = pd.concat([novos_dados], ignore_index=True)
@@ -156,7 +161,7 @@ def telemetria():
     dados_final_sub.to_csv('telemetriaRSUL_atual.csv', sep=';', index=False)
 
     # Se o arquivo já existe, leia-o primeiro
-      #dados_existente = pd.read_csv('telemetriaRSUL_atual.csv', sep=';')
+    # dados_existente = pd.read_csv('telemetriaRSUL_atual.csv', sep=';')
     arquivo = 'telemetriaRSUL_atual.csv'
     # origem
     caminho_origem = CAMINHO_ORIGEM / arquivo
@@ -169,7 +174,7 @@ def telemetria():
 
 
 # Copia o arquivo
-#shutil.copy(caminho_origem, caminho_destino)
+# shutil.copy(caminho_origem, caminho_destino)
 telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
 schedule.every(50).minutes.do(telemetria)
