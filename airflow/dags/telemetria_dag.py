@@ -89,7 +89,7 @@ send_email_alert = EmailOperator(
                   "{% if vlr_nivel[1]|int  > 1000 %}"
                   "<p style='color:red;'>O nível do rio {{ nome_rio[1] }} é de {{ vlr_nivel[1] }}cm.</p>"
                   "{% endif %}"
-                  "{% if vlr_nivel[2]|int  > 1000 %}"
+                  "{% if vlr_nivel[2]|int  > 500 %}"
                   "<p style='color:red;'>O nível do rio {{ nome_rio[2] }} é de {{ vlr_nivel[2] }}cm.</p>"
                   "{% endif %}"
                   "Dag: telemetria_dag"
@@ -115,7 +115,7 @@ def avalia_nivel(**context):
             tarefas.append('group_check_temp.send_email_alert')
         elif nome_rio == 'Ponte BR-470 - Rio Itajaí do Oeste Rio do Sul' and vlr_nivel >= 1000:
             tarefas.append('group_check_temp.send_email_alert')
-        elif nome_rio == 'Ponte Hannelore Hartmann Eyng - Rio Itajaí do Sul Rio do Sul' and vlr_nivel >= 1000:
+        elif nome_rio == 'Ponte Hannelore Hartmann Eyng - Rio Itajaí do Sul Rio do Sul' and vlr_nivel >= 500:
             tarefas.append('group_check_temp.send_email_alert')
 
     return tarefas
