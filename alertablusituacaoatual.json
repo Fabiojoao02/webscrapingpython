@@ -1,0 +1,10 @@
+[
+    {
+        "msg": "Condição de Chuvas e Probabilidade de Escorregamento Situação publicada em 24/11/2023",
+        "Nome Rio": "Itajaí-Açu",
+        "Nivel": "3,41m",
+        "Situacao Rio": "Observação",
+        "Condições de Chuva": "{\"central_chuva\": {\"chuva\": \"Central\", \"valor\": \"Normalidade\"}, \"leste_chuva\": {\"chuva\": \"Leste\", \"valor\": \"Normalidade\"}, \"norte_chuva\": {\"chuva\": \"Norte\", \"valor\": \"Normalidade\"}, \"oeste_chuva\": {\"chuva\": \"Oeste\", \"valor\": \"Normalidade\"}, \"sul_chuva\": {\"chuva\": \"Sul\", \"valor\": \"Normalidade\"}}",
+        "Condições de Deslizamento": "{\"central_deslizamento\": {\"deslizamento\": \"Central\", \"valor\": \"Normalidade\"}, \"leste_deslizamento\": {\"deslizamento\": \"Leste\", \"valor\": \"Normalidade\"}, \"norte_deslizamento\": {\"deslizamento\": \"Norte\", \"valor\": \"Normalidade\"}, \"oeste_deslizamento\": {\"deslizamento\": \"Oeste\", \"valor\": \"Observa\\u00e7\\u00e3o\"}, \"sul_deslizamento\": {\"deslizamento\": \"Sul\", \"valor\": \"Aten\\u00e7\\u00e3o\"}}"
+    }
+]
