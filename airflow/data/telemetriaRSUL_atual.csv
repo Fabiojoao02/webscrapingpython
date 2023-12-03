@@ -1,1 +1,4 @@
-
+nome_rio;nivel_rio;vlr_nivel_rio;uni_nivel_rio;chuva_total;vlr_chuva;uni_chuva;temperatura;vlr_temp;uni_temp;umidade;vlr_umidade;uni_umidade;pressao;vlr_pressao;uni_pressao;status;vento;vlr_vento;uni_vento;direcao;leitura
+Ponte Dom Tito Buss     -     Rio Itajaí-Açu    Rio do Sul;Nivel do Rio;499;cm;Chuva;12;mm;Temperatura;23.6º;Graus;Umidade;91%;%;Pressão Atmosférica;1009.5;hPa;subindo;Vento;0;km/h;Sudeste;Leitura realizada em 03/12/2023 às 20:10
+Ponte Hannelore Hartmann Eyng - Rio Itajaí do Sul Rio do Sul;Nível do Rio;970;cm;Chuva;66;mm;Temperatura;21.1º;Graus;Umidade;83%;%;Pressão Atmosférica;1005.6;hPa;caindo;Vento;0;km/h;Norte;Leitura realizada em 17/11/2023 às 14:20
+Ponte BR-470 - Rio Itajaí do Oeste Rio do Sul;Nível do Rio;1005;cm;Chuva;12.6;mm;Temperatura;22.9º;Graus;Umidade;99%;%;Pressão Atmosférica;1011.1;hPa;subindo;Vento;0;km/h;Leste;Leitura realizada em 03/12/2023 às 20:15
