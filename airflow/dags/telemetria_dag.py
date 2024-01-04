@@ -27,7 +27,7 @@ default_args = {
 
 # # schedule_interval="*/3 * * * * "
 dag = DAG('telemetria_dag', description='Dados de telematria',
-          schedule='50 * * * *', start_date=datetime(2023, 10, 9),
+          schedule='*/5 * * * *', start_date=datetime(2023, 10, 9),
           catchup=False, default_args=default_args, default_view='graph',
           doc_md="## Dag monitoramento dos Rios que cortam Blumenau - Rio do Sul")
 
@@ -48,7 +48,7 @@ def process_file(**kwarg):
                          encoding='utf-8')
 
     vlr_nivel_Rio = df_mov['vlr_nivel_rio'].tolist()
-    print(vlr_nivel_Rio)
+    print('Opa esse valor está aqui: ',vlr_nivel_Rio)
     nome_rio = df_mov['nome_rio'].tolist()
     print(nome_rio)
     # #
@@ -83,15 +83,15 @@ send_email_alert = EmailOperator(
                   "<p>nome_rio: {{ nome_rio[1] }} - {{ vlr_nivel[1]|int }}</p>"
                   # Rio Itajaí do Sul Rio do Sul - 1000
                   "<p>nome_rio: {{ nome_rio[2] }} - {{ vlr_nivel[2]|int }}</p>"
-                  "{% if vlr_nivel[0]|int  > 1000 %}"
+                  "{% if vlr_nivel[0]|int  > 500 %}"
                   "<p style='color:red;'>O nível do rio {{ nome_rio[0] }} é de {{ vlr_nivel[0] }}cm.</p>"
                   "{% endif %}"
-                  "{% if vlr_nivel[1]|int  > 1000 %}"
+                  "{% if vlr_nivel[1]|int  > 500 %}"
                   "<p style='color:red;'>O nível do rio {{ nome_rio[1] }} é de {{ vlr_nivel[1] }}cm.</p>"
                   "{% endif %}"
-                  "{% if vlr_nivel[2]|int  > 500 %}"
-                  "<p style='color:red;'>O nível do rio {{ nome_rio[2] }} é de {{ vlr_nivel[2] }}cm.</p>"
-                  "{% endif %}"
+                 # "{% if vlr_nivel[2]|int  > 500 %}"
+                 # "<p style='color:red;'>O nível do rio {{ nome_rio[2] }} é de {{ vlr_nivel[2] }}cm.</p>"
+                 # "{% endif %}"
                   "Dag: telemetria_dag"
                   ),
     task_group=group_check_temp,
@@ -102,19 +102,24 @@ def avalia_nivel(**context):
     # Recupera os dados do XCom
     vlr_niveis = context['ti'].xcom_pull(
         task_ids='get_data', key='vlr_nivel_rio')
+    if vlr_niveis == '---':
+        vlr_niveis = 0
+
     nomes_rios = context['ti'].xcom_pull(
         task_ids='get_data', key='nome_rio')
 
     tarefas = []  # Lista para armazenar as tarefas a serem executadas
 
     for vlr_nivel, nome_rio in zip(vlr_niveis, nomes_rios):
+        if vlr_nivel == '---':
+            vlr_nivel = 0
         vlr_nivel = float(vlr_nivel)
         # Concatena o nome do rio e o valor do nível
 
-        if nome_rio == 'Ponte Dom Tito Buss - Rio Itajaí-Açu Rio do Sul' and vlr_nivel >= 1000:
+        if nome_rio == 'Ponte Dom Tito Buss - Rio Itajaí-Açu Rio do Sul' and vlr_nivel >= 500:
             tarefas.append('group_check_temp.send_email_alert')
-        elif nome_rio == 'Ponte BR-470 - Rio Itajaí do Oeste Rio do Sul' and vlr_nivel >= 1000:
-            tarefas.append('group_check_temp.send_email_alert')
+       # elif nome_rio == 'Ponte BR-470 - Rio Itajaí do Oeste Rio do Sul' and vlr_nivel >= 500:
+       #     tarefas.append('group_check_temp.send_email_alert')
         elif nome_rio == 'Ponte Hannelore Hartmann Eyng - Rio Itajaí do Sul Rio do Sul' and vlr_nivel >= 500:
             tarefas.append('group_check_temp.send_email_alert')
 

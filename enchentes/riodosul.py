@@ -28,8 +28,8 @@ def telemetria():
     print("data e hora: ", today)
 
     options = webdriver.ChromeOptions()
-    options.headless = False
-    options.add_argument('--headless=new')
+    #options.headless = False
+    #options.add_argument('--headless=new')
 
     navegador = webdriver.Chrome(options=options)
     navegador.get('https://telemetria.riodosul.sc.gov.br/home')
@@ -41,12 +41,13 @@ def telemetria():
     # navegador.find_elements(
     #  By.XPATH, '//*[@id="map"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img')
 
-    itens_menu = navegador.find_elements(By.XPATH, '//*[@id="gmimap8"]/area') + \
-        navegador.find_elements(By.XPATH, '//*[@id="gmimap9"]/area') + \
-        navegador.find_elements(By.XPATH, '//*[@id="gmimap10"]/area')
+    itens_menu = navegador.find_elements(By.XPATH, '//*[@id="gmimap0"]/area') + \
+        navegador.find_elements(By.XPATH, '//*[@id="gmimap1"]/area') #+ \
+       # navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
     sleep(25)
     # itens_menu_oeste = navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
     # sleep(30)
+    #//*[@id="gmimap2"]/area
 
     # itens_menu += itens_menu_oeste
 
@@ -71,8 +72,12 @@ def telemetria():
             vlr_nivel_rio = dash_rio.find(
                 'span', style='font-size: 30px; font-weight: bold; line-height: 56px;')
             print('valor Nivel Rio: ', vlr_nivel_rio.text)
-            uni_nivel_rio = dash_rio.find('span', style='font-size:12px')
-            print('Unidade de medida: ', uni_nivel_rio.text)
+            if nivel_rio == '---':
+                nivel_rio = 0
+                uni_nivel_rio = 'cm'
+            else:    
+                uni_nivel_rio = dash_rio.find('span', style='font-size:12px')
+                print('Unidade de medida: ', uni_nivel_rio.text)
         # chuva
         chuva_total = dash_rio.find('div',  {'name': 'total'})
         if chuva_total:
@@ -126,8 +131,7 @@ def telemetria():
         leitura = dash_rio.find('div',  attrs={'class': 'panel-footer'})
 
         dados_telemetria.append([
-            nome_rio.text.strip(), nivel_rio.text.strip(
-            ), vlr_nivel_rio.text.strip(), uni_nivel_rio.text.strip(),
+            nome_rio.text.strip(), nivel_rio.text.strip(), vlr_nivel_rio.text.strip(), uni_nivel_rio.text.strip(),
             chuva_total, vlr_chuva.text.strip(), uni_chuva, temperatura,
             vlr_temp.text.strip(), uni_temp, umidade, vlr_umidade.text.strip(), uni_umidade, pressao,
             vlr_pressao.text.strip(), uni_pressao, status.text.strip(), vento, vlr_vento.text.strip(),
@@ -139,6 +143,8 @@ def telemetria():
         dados_existente = pd.read_csv('telemetriaRSUL.csv', sep=';')
     except FileNotFoundError:
         dados_existente = pd.DataFrame()
+    except pd.errors.EmptyDataError:
+        print("O arquivo está vazio ou não contém colunas identificáveis.")        
 
     # Adicione os novos dados ao DataFrame existente
     novos_dados = pd.DataFrame(dados_telemetria, columns=[
@@ -177,7 +183,7 @@ def telemetria():
 # shutil.copy(caminho_origem, caminho_destino)
 telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
-schedule.every(50).minutes.do(telemetria)
+schedule.every(5).minutes.do(telemetria)
 
 while True:
     schedule.run_pending()
