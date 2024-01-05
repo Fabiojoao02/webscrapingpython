@@ -42,8 +42,8 @@ def telemetria():
     #  By.XPATH, '//*[@id="map"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img')
 
     itens_menu = navegador.find_elements(By.XPATH, '//*[@id="gmimap0"]/area') + \
-        navegador.find_elements(By.XPATH, '//*[@id="gmimap1"]/area') #+ \
-       # navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
+        navegador.find_elements(By.XPATH, '//*[@id="gmimap1"]/area') + \
+        navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
     sleep(25)
     # itens_menu_oeste = navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
     # sleep(30)
@@ -183,7 +183,7 @@ def telemetria():
 # shutil.copy(caminho_origem, caminho_destino)
 telemetria()
 # Agende a tarefa para ser executada a cada 2 minutos
-schedule.every(5).minutes.do(telemetria)
+schedule.every(50).minutes.do(telemetria)
 
 while True:
     schedule.run_pending()

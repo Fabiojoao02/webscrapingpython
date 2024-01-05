@@ -27,7 +27,7 @@ default_args = {
 
 # # schedule_interval="*/3 * * * * "
 dag = DAG('telemetria_dag', description='Dados de telematria',
-          schedule='*/5 * * * *', start_date=datetime(2023, 10, 9),
+          schedule='50 * * * *', start_date=datetime(2023, 10, 9),
           catchup=False, default_args=default_args, default_view='graph',
           doc_md="## Dag monitoramento dos Rios que cortam Blumenau - Rio do Sul")
 
@@ -89,9 +89,9 @@ send_email_alert = EmailOperator(
                   "{% if vlr_nivel[1]|int  > 500 %}"
                   "<p style='color:red;'>O nível do rio {{ nome_rio[1] }} é de {{ vlr_nivel[1] }}cm.</p>"
                   "{% endif %}"
-                 # "{% if vlr_nivel[2]|int  > 500 %}"
-                 # "<p style='color:red;'>O nível do rio {{ nome_rio[2] }} é de {{ vlr_nivel[2] }}cm.</p>"
-                 # "{% endif %}"
+                  "{% if vlr_nivel[2]|int  > 500 %}"
+                  "<p style='color:red;'>O nível do rio {{ nome_rio[2] }} é de {{ vlr_nivel[2] }}cm.</p>"
+                  "{% endif %}"
                   "Dag: telemetria_dag"
                   ),
     task_group=group_check_temp,
