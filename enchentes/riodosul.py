@@ -28,8 +28,8 @@ def telemetria():
     print("data e hora: ", today)
 
     options = webdriver.ChromeOptions()
-    #options.headless = False
-    #options.add_argument('--headless=new')
+    options.headless = False
+    options.add_argument('--headless=new')
 
     navegador = webdriver.Chrome(options=options)
     navegador.get('https://telemetria.riodosul.sc.gov.br/home')
@@ -41,10 +41,11 @@ def telemetria():
     # navegador.find_elements(
     #  By.XPATH, '//*[@id="map"]/div/div/div[2]/div[2]/div/div[3]/div[3]/img')
 
-    itens_menu = navegador.find_elements(By.XPATH, '//*[@id="gmimap0"]/area') + \
+    itens_menu = navegador.find_elements(By.XPATH, '//*[@id="gmimap8"]/area') + \
         navegador.find_elements(By.XPATH, '//*[@id="gmimap1"]/area') + \
         navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
     sleep(25)
+
     # itens_menu_oeste = navegador.find_elements(By.XPATH, '//*[@id="gmimap2"]/area')
     # sleep(30)
     #//*[@id="gmimap2"]/area
