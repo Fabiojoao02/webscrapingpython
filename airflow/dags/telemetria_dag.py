@@ -27,7 +27,7 @@ default_args = {
 
 # # schedule_interval="*/3 * * * * "
 dag = DAG('telemetria_dag', description='Dados de telematria',
-          schedule='50 * * * *', start_date=datetime(2023, 10, 9),
+          schedule='*/15 * * * *', start_date=datetime(2023, 10, 9),
           catchup=False, default_args=default_args, default_view='graph',
           doc_md="## Dag monitoramento dos Rios que cortam Blumenau - Rio do Sul")
 
@@ -48,7 +48,7 @@ def process_file(**kwarg):
                          encoding='utf-8')
 
     vlr_nivel_Rio = df_mov['vlr_nivel_rio'].tolist()
-    print('Opa esse valor está aqui: ',vlr_nivel_Rio)
+    print('Opa esse valor está aqui: ', vlr_nivel_Rio)
     nome_rio = df_mov['nome_rio'].tolist()
     print(nome_rio)
     # #
